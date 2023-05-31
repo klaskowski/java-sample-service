@@ -27,7 +27,7 @@ public class ItemService {
       Item existingItem = optionalItem.get();
       existingItem.setName(updatedItem.getName());
       existingItem.setDescription(updatedItem.getDescription());
-      // Update other fields as needed
+      existingItem.setPrice(updatedItem.getPrice());
       return itemRepository.save(existingItem);
     } else {
       return null;
