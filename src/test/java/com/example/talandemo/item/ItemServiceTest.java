@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -18,6 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 public class ItemServiceTest {
 
@@ -177,29 +181,19 @@ public class ItemServiceTest {
   void getAllItems_ReturnsAllItems() {
     // Arrange
     List<Item> itemList = new ArrayList<>();
-    Item item1 = new Item();
-    item1.setId(1L);
-    item1.setName("Item 1");
-    item1.setDescription("This is item 1");
-    itemList.add(item1);
-    Item item2 = new Item();
-    item2.setId(2L);
-    item2.setName("Item 2");
-    item2.setDescription("This is item 2");
-    itemList.add(item2);
+    itemList.add(new Item(1L, "Item 1", 10.0, "This is item 1"));
+    itemList.add(new Item(2L, "Item 2", 11.0, "This is item 2"));
 
-    when(itemRepository.findAll()).thenReturn(itemList);
+    Pageable pageable = mock(Pageable.class);
+    Page<Item> itemPage = new PageImpl<>(itemList);
+
+    when(itemRepository.findAll(pageable)).thenReturn(itemPage);
 
     // Act
-    List<Item> result = itemService.getAllItems();
+    Page<Item> result = itemService.getAllItems(pageable);
 
     // Assert
-    assertNotNull(result);
-    assertEquals(2, result.size());
-    assertEquals("Item 1", result.get(0).getName());
-    assertEquals("This is item 1", result.get(0).getDescription());
-    assertEquals("Item 2", result.get(1).getName());
-    assertEquals("This is item 2", result.get(1).getDescription());
-    verify(itemRepository, times(1)).findAll();
+    assertEquals(itemList, result.getContent());
+    verify(itemRepository, times(1)).findAll(pageable);
   }
 }

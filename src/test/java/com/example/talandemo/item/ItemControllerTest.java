@@ -7,6 +7,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -127,30 +130,25 @@ public class ItemControllerTest {
   void getAllItems_ReturnsAllItems() throws Exception {
     // Arrange
     List<Item> itemList = new ArrayList<>();
-    Item item1 = new Item();
-    item1.setId(1L);
-    item1.setName("Item 1");
-    item1.setDescription("This is item 1");
-    itemList.add(item1);
-    Item item2 = new Item();
-    item2.setId(2L);
-    item2.setName("Item 2");
-    item2.setDescription("This is item 2");
-    itemList.add(item2);
+    itemList.add(new Item(1L, "Item 1", 10.0, "This is item 1"));
+    itemList.add(new Item(2L, "Item 2", 11.0, "This is item 2"));
 
-    when(itemService.getAllItems()).thenReturn(itemList);
+    Page<Item> itemPage = new PageImpl<>(itemList);
+
+    when(itemService.getAllItems(any(Pageable.class))).thenReturn(itemPage);
 
     // Act & Assert
     mockMvc.perform(get("/items"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].id").value(1L))
-        .andExpect(jsonPath("$[0].name").value("Item 1"))
-        .andExpect(jsonPath("$[0].description").value("This is item 1"))
-        .andExpect(jsonPath("$[1].id").value(2L))
-        .andExpect(jsonPath("$[1].name").value("Item 2"))
-        .andExpect(jsonPath("$[1].description").value("This is item 2"));
+        .andExpect(jsonPath("$.content[0].id").value(1L))
+        .andExpect(jsonPath("$.content[0].name").value("Item 1"))
+        .andExpect(jsonPath("$.content[0].price").value(10.0))
+        .andExpect(jsonPath("$.content[0].description").value("This is item 1"))
+        .andExpect(jsonPath("$.content[1].id").value(2L))
+        .andExpect(jsonPath("$.content[1].name").value("Item 2"))
+        .andExpect(jsonPath("$.content[1].price").value(11.0))
+        .andExpect(jsonPath("$.content[1].description").value("This is item 2"));
 
-    verify(itemService, times(1)).getAllItems();
+    verify(itemService, times(1)).getAllItems(any(Pageable.class));
   }
-
 }

@@ -1,9 +1,9 @@
 package com.example.talandemo.item;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -49,10 +49,7 @@ public class ItemService {
     return optionalItem.orElse(null);
   }
 
-  public List<Item> getAllItems() {
-    Iterable<Item> items = itemRepository.findAll();
-    List<Item> itemList = new ArrayList<>();
-    items.forEach(itemList::add);
-    return itemList;
+  public Page<Item> getAllItems(Pageable pageable) {
+    return itemRepository.findAll(pageable);
   }
 }
