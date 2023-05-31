@@ -3,6 +3,7 @@ package com.example.talandemo.item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,6 +27,9 @@ public class ItemControllerTest {
 
   @MockBean
   private ItemService itemService;
+
+  @MockBean
+  private RabbitTemplate rabbitTemplate;
 
   @BeforeEach
   public void setup() {

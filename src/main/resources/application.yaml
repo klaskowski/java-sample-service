@@ -39,6 +39,11 @@ spring:
     username: guest
     password: guest
 
+  security:
+    user:
+      name: guest
+      password: guest
+
 logging:
   level:
     root: WARN
@@ -50,11 +55,3 @@ server.servlet:
     charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
     enabled: true # Enable http encoding support
     force: true
-
-springdoc.swagger-ui.path: /
-#springdoc.swagger-ui.path: /swagger
-
-jwt:
-  secret: zYwQHr8Kz5jvhSsRFgqYkX2rx+PR16IChg1kwIKhKPQ=
-  expiration: 86400000
-

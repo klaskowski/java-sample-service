@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 public class ItemServiceTest {
 
@@ -63,6 +62,7 @@ public class ItemServiceTest {
     existingItem.setDescription("This is an existing item");
 
     Item updatedItem = new Item();
+    updatedItem.setId(itemId);
     updatedItem.setName("Updated Item");
     updatedItem.setDescription("This is the updated item");
 
