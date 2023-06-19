@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>talan-demo</artifactId>
+	<artifactId>item-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>talan-demo</name>
 	<description>Talan | Technical Challenge</description>

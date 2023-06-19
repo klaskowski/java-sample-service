@@ -1,8 +1,8 @@
-FROM openjdk:18-jre-slim
+FROM bellsoft/liberica-openjdk-alpine:18.0.2
 
 WORKDIR /app
 
-COPY target/item-service.jar item-service.jar
+COPY target/item-service-*.jar item-service.jar
 
 EXPOSE 8080
 

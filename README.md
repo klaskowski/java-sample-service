@@ -23,7 +23,13 @@ mvn test
 ```
 
 ## Docker
-To build a Docker image of the application, execute the following command:
+To build a Docker image of the application, first build the application using following command:
+
+```shell
+mvn -Dmaven.test.skip package
+```
+
+then execute the following command:
 
 ```shell
 docker build -t item-service .
@@ -42,7 +48,7 @@ The RabbitMQ service with the Management Plugin will start as a container named 
 
 To start RabbitMQ
 ```shell
-docker compose up
+docker compose up rabbitmq
 ```
 
 To enable message logging in RabbitMQ, follow these steps:

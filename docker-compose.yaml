@@ -9,3 +9,8 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
+  item-service:
+    build: .
+    container_name: item-service
+    ports:
+      - 8080:8080
